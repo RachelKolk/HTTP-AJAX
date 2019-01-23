@@ -2,17 +2,23 @@ import React from "react";
 
 import axios from 'axios';
 
-// import styled from 'styled-components';
+import styled from 'styled-components';
 
-// const NameH2 = styled.h2`
-//     font-size: 2rem;
-//     text-align:center
-// `;
+const NameH2 = styled.h2`
+    font-size: 1.5rem;
+    padding-top: 1.5%;
+    padding-left: 1%;
+`;
 
-// const AgeH4 = styled.h4`
-//     font-size: 1.5rem;
-//     text-align: center;
-// `;
+const AgeH4 = styled.h4`
+    font-size: 1rem;
+    padding-left: 1%;
+`;
+
+const EmailH3 = styled.h3`
+    font-size: 1.2rem;
+    Padding-left: 1%;
+`;
 
 
 class FriendsList extends React.Component {
@@ -44,9 +50,11 @@ class FriendsList extends React.Component {
 
                 {this.state.friends.map(friends => (
                     <React.Fragment>
-                    <h2>{friends.name}</h2>
-                    <h4>Age: {friends.age}</h4>
-                    <h3>Email: {friends.email}</h3>
+                    <NameH2>{friends.name}</NameH2>
+                    <AgeH4>Age: {friends.age}</AgeH4>
+                    <EmailH3>Email: {friends.email}</EmailH3>
+                    <button>Update</button>
+                    <button>Delete</button>
                     </React.Fragment>
                 ))}
 
