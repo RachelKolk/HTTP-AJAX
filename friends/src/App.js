@@ -1,24 +1,148 @@
 import React, { Component } from 'react';
-import {Route, Link} from 'react-router-dom';
+import {Route} from 'react-router-dom';
+import axios from 'axios';
+
+import styled from 'styled-components';
 
 import FriendsList from './components/FriendsList';
-import NewFriendForm from './components/NewFriendForm';
+import FriendForm from './components/FriendForm';
 
 
-import './App.css';
+
+const Heading = styled.h1`
+    font-family: 'Noto Serif SC', serif;
+    font-size: 2.5rem;
+    font-weight: 600;
+    padding-left: 1%;
+    text-align: center;
+`;
+
+const clearedFriend = {
+  name: '',
+  age: '',
+  email: '',
+};
+
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+      this.state = {
+        friends: [],
+        isUpdating: false,
+        friend: {
+          name: "",
+          age: "",
+          email: ""
+        }
+      };
+  }
+
+  componentDidMount() {
+      axios.get("http://localhost:5000/friends")
+      .then(res => {
+          this.setState({
+              friends: res.data,
+              error: ''            
+          });
+      })
+      .catch(err => {
+          this.setState({error: err.response.data});          
+      });
+            
+  }
+
+  handleChanges = e => {
+      e.persist();
+      this.setState(prevState => {
+          return {
+            friend: {
+                ...prevState.friend,
+                [e.target.name]: e.target.value
+            } 
+          }
+      });
+  };
+
+  addFriend = () => {
+    axios
+      .post("http://localhost:5000/friends", this.state.item)
+      .then(res => {
+        this.setState({friends:res.data});
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
+  }
+
+  deleteFriend = (e, friendId) => {
+    e.preventDefault();
+    axios
+      .delete(`http://localhost:5000/friends/${friendId}`)
+      .then(res => {
+        this.setState({friends:res.data})
+        this.props.history.push('/');
+      })
+  }
+
+  toFriendForm = (e, id) => {
+    e.preventDefault();
+    this.setState({
+      friend: this.state.friends.find(friend => friend.id === id),
+      isUpdating: true
+    });
+    this.props.history.push("/friend-form");
+  };
+
+  updateFriend = () => {
+    axios
+      .put(`http://localhost:5000/friends/${this.state.friend.id}`, this.state.item)
+      .then(res => {
+        this.setState({
+          friends: res.data,
+          isUpdating: false,
+          item: clearedFriend
+        });
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+
+
   render() {
     return (
       <div className="App">
-        <div className="navbar">
-          
-            <Link to="/">Home</Link>
-            <Link to="/addafriend">Add Friend</Link>
-        </div> 
 
-      <Route exact path="/" component={FriendsList} />
-      <Route exact path="/addafriend" component={NewFriendForm} />   
+        <Heading>My Friends</Heading>
+
+        <Route
+          exact path="/"
+          render={props => (
+            <FriendsList 
+              {...props}
+              friends={this.state.friends}
+              deleteFriend={this.deleteFriend}
+              toFriendForm={this.toFriendForm}
+            />
+          )}
+        />
+
+        <Route
+          path="/friend-form"
+          render={props => (
+            <FriendForm 
+              {...props}
+              friend={this.state.friends}
+              handleChanges={this.handleChanges}
+              addFriend={this.addFriend}
+              updateFriend={this.updateFriend}
+              isUpdating={this.state.isUpdating}
+            /> 
+          )}
+        />
+        
         
       </div>
     );
