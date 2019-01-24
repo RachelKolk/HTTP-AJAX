@@ -37,64 +37,6 @@ const Button = styled.button`
     line-height: 1.2rem;
 `;
 
-// const clearedFriend = {
-//     name: '',
-//     age: '',
-//     email: '',
-// };
-
-// class FriendsList extends React.Component {
-//     state= {
-//         friends: [],
-//         error: ''
-//     };
-
-    // componentDidMount() {
-    //     axios.get("http://localhost:5000/friends")
-    //     .then(res => {
-    //         this.setState({
-    //             friends: res.data,
-    //             error: ''            
-    //         });
-    //     })
-    //     .catch(err => {
-    //         this.setState({error: err.response.data});          
-    //     });
-               
-    // }
-
-    // handleChanges = e => {
-    //     e.persist();
-    //     this.setState(prevState => {
-    //         return: {
-    //            friend: {
-    //                ...prevState.item,
-    //                [e.target.name]: e.target.value
-    //            } 
-    //         }
-    //     });
-    // };
-
-//     render() {
-//         return (
-//             <div className="FriendsList">            
-
-//                 {this.state.error && <h4>{this.state.error}</h4>}
-
-//                 {this.state.friends.map(friend => (
-//                     <React.Fragment>
-//                     <NameH2>{friend.name}</NameH2>
-//                     <AgeH4>Age: {friend.age}</AgeH4>
-//                     <EmailH3>Email: {friend.email}</EmailH3>
-//                     <Button>Update</Button>
-//                     <Button>Delete</Button>
-//                     </React.Fragment>
-//                 ))}
-
-//             </div>
-//         )
-//     }
-// }
 
 function FriendsList(props) {
     console.log(props);
@@ -105,7 +47,7 @@ function FriendsList(props) {
                     <NameH2>{friend.name}</NameH2>
                     <AgeH4>Age: {friend.age}</AgeH4>
                     <EmailH3>Email: {friend.email}</EmailH3>
-                    <Button>Update</Button>
+                    <Button onClick={e => props.toFriendForm(e, friend.id)}>Update</Button>
                     <Button onClick={e => props.deleteFriend(e, friend.id)}>Delete</Button>
         
                 </div>

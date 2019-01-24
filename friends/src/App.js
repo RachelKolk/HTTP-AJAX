@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
+import {Route, Link} from 'react-router-dom';
 import axios from 'axios';
 
 import styled from 'styled-components';
@@ -95,12 +95,12 @@ class App extends Component {
 
   updateFriend = () => {
     axios
-      .put(`http://localhost:5000/friends/${this.state.friend.id}`, this.state.item)
+      .put(`http://localhost:5000/friends/${this.state.friend.id}`, this.state.friend)
       .then(res => {
         this.setState({
           friends: res.data,
           isUpdating: false,
-          item: clearedFriend
+          friend: clearedFriend
         });
         this.props.history.push("/");
       })
@@ -116,6 +116,7 @@ class App extends Component {
       <div className="App">
 
         <Heading>My Friends</Heading>
+        <Link to="/friend-form">Add Friend</Link>
 
         <Route
           exact path="/"
