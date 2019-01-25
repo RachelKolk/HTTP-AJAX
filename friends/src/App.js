@@ -3,6 +3,7 @@ import {Route, Link} from 'react-router-dom';
 import axios from 'axios';
 
 import styled from 'styled-components';
+import './App.css';
 
 import FriendsList from './components/FriendsList';
 import FriendForm from './components/FriendForm';
@@ -15,7 +16,12 @@ const Heading = styled.h1`
     font-weight: 600;
     padding-left: 1%;
     text-align: center;
+    background-color: gray;
+    line-height: 7rem;
+    color: white;
 `;
+
+
 
 const clearedFriend = {
   name: '',
@@ -31,9 +37,10 @@ class App extends Component {
         friends: [],
         isUpdating: false,
         friend: {
-          name: "",
-          age: "",
-          email: ""
+          id: '',
+          name: '',
+          age: '',
+          email: '',
         }
       };
   }
@@ -66,7 +73,7 @@ class App extends Component {
 
   addFriend = () => {
     axios
-      .post("http://localhost:5000/friends", this.state.item)
+      .post("http://localhost:5000/friends", this.state.friend)
       .then(res => {
         this.setState({friends:res.data});
         this.props.history.push("/");
@@ -74,10 +81,10 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
-  deleteFriend = (e, friendId) => {
+  deleteFriend = (e, id) => {
     e.preventDefault();
     axios
-      .delete(`http://localhost:5000/friends/${friendId}`)
+      .delete(`http://localhost:5000/friends/${id}`)
       .then(res => {
         this.setState({friends:res.data})
         this.props.history.push('/');
@@ -93,7 +100,7 @@ class App extends Component {
     this.props.history.push("/friend-form");
   };
 
-  updateFriend = () => {
+  updateFriend = (id) => {
     axios
       .put(`http://localhost:5000/friends/${this.state.friend.id}`, this.state.friend)
       .then(res => {
@@ -115,8 +122,10 @@ class App extends Component {
     return (
       <div className="App">
 
+        
+        <Link className="NavLink" to="/">Home </Link> 
+        <Link className="NavLink" to="/friend-form">Add Friend</Link>
         <Heading>My Friends</Heading>
-        <Link to="/friend-form">Add Friend</Link>
 
         <Route
           exact path="/"

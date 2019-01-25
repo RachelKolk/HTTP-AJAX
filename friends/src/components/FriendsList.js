@@ -6,12 +6,16 @@ import React from "react";
 
 import styled from 'styled-components';
 
+const FriendCard = styled.div`
+    text-align: center;
+`;
+
 
 const NameH2 = styled.h2`
     font-family: 'Noto Serif SC', serif;
     font-size: 1.5rem;
     font-weight: 700;
-    padding-top: 1.5%;
+    padding-top: 1%;
     padding-left: 1%;
 `;
 
@@ -43,14 +47,16 @@ function FriendsList(props) {
     return (
         <div className="friendsList">
             {props.friends.map(friend => (
-                <div className="FriendCard" key={friend.id}>
+                <FriendCard key={friend.id}>
+                    <hr />
                     <NameH2>{friend.name}</NameH2>
                     <AgeH4>Age: {friend.age}</AgeH4>
                     <EmailH3>Email: {friend.email}</EmailH3>
                     <Button onClick={e => props.toFriendForm(e, friend.id)}>Update</Button>
                     <Button onClick={e => props.deleteFriend(e, friend.id)}>Delete</Button>
+                    <hr />
         
-                </div>
+                </FriendCard>
             ))}
         </div> 
     );
