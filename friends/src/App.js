@@ -81,10 +81,10 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
-  deleteFriend = (e, id) => {
+  deleteFriend = (e, friendId) => {
     e.preventDefault();
     axios
-      .delete(`http://localhost:5000/friends/${id}`)
+      .delete(`http://localhost:5000/friends/${friendId}`)
       .then(res => {
         this.setState({friends:res.data})
         this.props.history.push('/');
@@ -100,7 +100,7 @@ class App extends Component {
     this.props.history.push("/friend-form");
   };
 
-  updateFriend = (id) => {
+  updateFriend = () => {
     axios
       .put(`http://localhost:5000/friends/${this.state.friend.id}`, this.state.friend)
       .then(res => {
@@ -144,7 +144,7 @@ class App extends Component {
           render={props => (
             <FriendForm 
               {...props}
-              friend={this.state.friends}
+              friend={this.state.friend}
               handleChanges={this.handleChanges}
               addFriend={this.addFriend}
               updateFriend={this.updateFriend}

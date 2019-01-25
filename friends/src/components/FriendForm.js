@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-const EntryForm = styled.form`
+const EntryForm = styled.div`
     font-family: 'Noto Serif SC', serif;
     display: flex;
     justify-content: center;
@@ -25,15 +25,19 @@ const UpdateButton = styled.button`
     font-family: 'Noto Serif SC', serif;
     width: 150px;
     border-radius: 4px;
+    margin-left: 30%;
+    text-align: center;
 `;
 
 function FriendForm(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        if (props.isupdating) {
+        if (props.isUpdating) {
+            console.log("update");
             props.updateFriend();
         } else {
+            console.log("add new");
             props.addFriend();
         }
     }
